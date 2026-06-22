@@ -17,18 +17,15 @@
   --brd:rgba(255,255,255,0.07)
 }
 body{background:var(--bg);color:var(--tx);font-family:'DM Sans',sans-serif;font-size:16px;line-height:1.6}
-
 section{padding:6.5rem 5vw}
 .ey{font-family:'Space Grotesk',sans-serif;font-size:.67rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--or);margin-bottom:.8rem}
 .sh{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.7rem,3.5vw,2.5rem);font-weight:700;line-height:1.2;margin-bottom:1rem}
 .swipe-hint{font-family:'Space Grotesk',sans-serif;font-size:.78rem;color:var(--mu);letter-spacing:.02em;margin:-.4rem 0 1.6rem}
-
 #sgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:1.8rem;margin-top:3rem}
 .sc{background:var(--bg3);border-radius:16px;border:2px solid rgba(255,255,255,.16);overflow:hidden;cursor:pointer;transition:transform .3s cubic-bezier(.2,.8,.2,1),box-shadow .3s,border-color .3s}
 .sc:hover{transform:translateY(-6px);border-color:var(--bl2);box-shadow:0 20px 45px rgba(0,0,0,.35)}
 .sthumb{width:100%;aspect-ratio:9/16;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;background-size:cover;background-position:center}
 @media(max-width:480px){#sgrid{grid-template-columns:repeat(2,1fr);gap:1rem}}
-
 #lgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.8rem;margin-top:3rem}
 .lc{background:var(--bg3);border-radius:16px;border:2px solid rgba(255,255,255,.16);overflow:hidden;cursor:pointer;transition:transform .3s cubic-bezier(.2,.8,.2,1),box-shadow .3s,border-color .3s}
 .lc:hover{transform:translateY(-6px);border-color:var(--or);box-shadow:0 20px 45px rgba(0,0,0,.35)}
@@ -37,26 +34,21 @@ section{padding:6.5rem 5vw}
 .ltitle{font-family:'Space Grotesk',sans-serif;font-size:.92rem;font-weight:600;color:var(--tx)}
 .ltype{font-family:'Space Grotesk',sans-serif;font-size:.68rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--or);margin-top:.3rem}
 @media(max-width:480px){#lgrid{grid-template-columns:1fr}}
-
 .thumb-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.05) 0%,rgba(0,0,0,.45) 100%);pointer-events:none}
 .pplay{position:relative;z-index:2;width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:transform .3s cubic-bezier(.2,.8,.2,1);box-shadow:0 6px 20px rgba(0,0,0,.45)}
 .sc:hover .pplay,.lc:hover .pplay{transform:scale(1.1)}
 .pplay svg{width:19px;height:19px;fill:#fff;margin-left:3px}
-
 .vid-wrap{position:relative;width:100%;height:100%;cursor:pointer}
 .vid-wrap video{width:100%;height:100%;object-fit:cover;display:block;background:#000}
 .vid-tap-icon{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) scale(0);width:60px;height:60px;border-radius:50%;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;pointer-events:none;transition:transform .15s ease,opacity .25s ease;opacity:0}
 .vid-tap-icon.show{transform:translate(-50%,-50%) scale(1);opacity:1}
 .vid-tap-icon svg{width:22px;height:22px;fill:#fff}
-
 .rv{opacity:0;transform:translateY(20px);transition:opacity .65s ease,transform .65s ease}
 .rv.on{opacity:1;transform:translateY(0)}
-
 .topbar{text-align:center;padding:3.5rem 5vw 1rem;background:var(--bg2)}
 .badge{display:inline-flex;align-items:center;gap:.5rem;background:rgba(255,90,26,.1);border:1px solid rgba(255,90,26,.25);border-radius:50px;padding:.32rem 1rem;font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:600;color:var(--or2);letter-spacing:.08em;text-transform:uppercase}
 .dot{width:7px;height:7px;border-radius:50%;background:#22D96A;box-shadow:0 0 8px #22D96A;animation:blink 1.5s ease-in-out infinite}
 @keyframes blink{50%{opacity:.25}}
-
 .twrap{overflow:hidden;background:var(--bg2);padding:1.6rem 0 0;white-space:nowrap}
 .tinner{display:inline-flex;animation:scroll 28s linear infinite}
 .tinner span{font-family:'Space Grotesk',sans-serif;font-size:1.4rem;font-weight:700;letter-spacing:.01em;padding:0 1.4rem;background:linear-gradient(90deg,var(--or),var(--bl2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
@@ -69,7 +61,6 @@ section{padding:6.5rem 5vw}
 <div class="topbar">
   <div class="badge"><span class="dot"></span> Top Priority Work</div>
 </div>
-
 <div class="twrap"><div class="tinner" id="ticker"></div></div>
 
 <section id="shorts-showcase" style="background:var(--bg2)">
@@ -87,29 +78,6 @@ section{padding:6.5rem 5vw}
 </section>
 
 <script>
-function capturePoster(src, callback) {
-  const v = document.createElement('video');
-  v.src = src;
-  v.preload = 'metadata';
-  v.muted = true;
-  v.playsInline = true;
-  v.crossOrigin = 'anonymous';
-  v.addEventListener('loadedmetadata', () => { v.currentTime = 0.1; });
-  v.addEventListener('seeked', () => {
-    const c = document.createElement('canvas');
-    c.width = v.videoWidth || 640;
-    c.height = v.videoHeight || 360;
-    c.getContext('2d').drawImage(v, 0, 0, c.width, c.height);
-    try {
-      callback(c.toDataURL('image/jpeg', 0.85));
-    } catch(e) {
-      callback(null);
-    }
-    v.src = '';
-  });
-  v.load();
-}
-
 function playInline(thumbEl, src) {
   if (thumbEl.querySelector('video')) return;
   thumbEl.innerHTML = '';
@@ -121,12 +89,10 @@ function playInline(thumbEl, src) {
   vid.autoplay = true;
   vid.playsinline = true;
   vid.controls = false;
-
   const icon = document.createElement('div');
   icon.className = 'vid-tap-icon';
-  const playSVG = `<svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3" fill="#fff"/></svg>`;
-  const pauseSVG = `<svg viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16" fill="#fff"/><rect x="14" y="4" width="4" height="16" fill="#fff"/></svg>`;
-
+  const playSVG = '<svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3" fill="#fff"/></svg>';
+  const pauseSVG = '<svg viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16" fill="#fff"/><rect x="14" y="4" width="4" height="16" fill="#fff"/></svg>';
   let iconTimer;
   function flashIcon(svg) {
     icon.innerHTML = svg;
@@ -134,17 +100,10 @@ function playInline(thumbEl, src) {
     clearTimeout(iconTimer);
     iconTimer = setTimeout(() => icon.classList.remove('show'), 600);
   }
-
   wrap.addEventListener('click', () => {
-    if (vid.paused) {
-      vid.play();
-      flashIcon(playSVG);
-    } else {
-      vid.pause();
-      flashIcon(pauseSVG);
-    }
+    if (vid.paused) { vid.play(); flashIcon(playSVG); }
+    else { vid.pause(); flashIcon(pauseSVG); }
   });
-
   wrap.appendChild(vid);
   wrap.appendChild(icon);
   thumbEl.appendChild(wrap);
@@ -154,33 +113,25 @@ function playInline(thumbEl, src) {
 function buildCard(container, v) {
   const el = document.createElement('div');
   el.className = 'sc rv';
-
   const thumb = document.createElement('div');
   thumb.className = 'sthumb';
-  thumb.style.background = '#15192b';
-
+  if (v.poster) {
+    thumb.style.backgroundImage = 'url(' + v.poster + ')';
+    thumb.style.backgroundSize = 'cover';
+    thumb.style.backgroundPosition = 'center';
+  } else {
+    thumb.style.background = '#15192b';
+  }
   const overlay = document.createElement('div');
   overlay.className = 'thumb-overlay';
-
   const btn = document.createElement('div');
   btn.className = 'pplay';
   btn.style.background = v.ac;
-  btn.innerHTML = `<svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3" fill="#fff"/></svg>`;
-
+  btn.innerHTML = '<svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3" fill="#fff"/></svg>';
   thumb.appendChild(overlay);
   thumb.appendChild(btn);
-
   el.appendChild(thumb);
   container.appendChild(el);
-
-  capturePoster(v.video, (poster) => {
-    if (poster) {
-      thumb.style.backgroundImage = `url(${poster})`;
-      thumb.style.backgroundSize = 'cover';
-      thumb.style.backgroundPosition = 'center';
-    }
-  });
-
   thumb.addEventListener('click', () => playInline(thumb, v.video));
   return el;
 }
@@ -188,63 +139,52 @@ function buildCard(container, v) {
 function buildLongCard(container, v) {
   const el = document.createElement('div');
   el.className = 'lc rv';
-
   const thumb = document.createElement('div');
   thumb.className = 'lthumb';
-  thumb.style.background = '#15192b';
-
+  if (v.poster) {
+    thumb.style.backgroundImage = 'url(' + v.poster + ')';
+    thumb.style.backgroundSize = 'cover';
+    thumb.style.backgroundPosition = 'center';
+  } else {
+    thumb.style.background = '#15192b';
+  }
   const overlay = document.createElement('div');
   overlay.className = 'thumb-overlay';
-
   const btn = document.createElement('div');
   btn.className = 'pplay';
   btn.style.background = v.ac;
-  btn.innerHTML = `<svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3" fill="#fff"/></svg>`;
-
+  btn.innerHTML = '<svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3" fill="#fff"/></svg>';
   thumb.appendChild(overlay);
   thumb.appendChild(btn);
-
   const meta = document.createElement('div');
   meta.className = 'lmeta';
-  meta.innerHTML = `<div class="ltitle">${v.title}</div><div class="ltype">${v.type}</div>`;
-
+  meta.innerHTML = '<div class="ltitle">' + v.title + '</div><div class="ltype">' + v.type + '</div>';
   el.appendChild(thumb);
   el.appendChild(meta);
   container.appendChild(el);
-
-  capturePoster(v.video, (poster) => {
-    if (poster) {
-      thumb.style.backgroundImage = `url(${poster})`;
-      thumb.style.backgroundSize = 'cover';
-      thumb.style.backgroundPosition = 'center';
-    }
-  });
-
   thumb.addEventListener('click', () => playInline(thumb, v.video));
   return el;
 }
 
 const shorts = [
-  {video:'short1.mp4',title:'I Tried This For 7 Days',type:'Short',ac:'#FF5A1A'},
-  {video:'short2.mp4',title:'Nobody Tells You This',type:'Short',ac:'#FF7A40'},
-  {video:'short3.mp4',title:'Wait For It...',type:'Short',ac:'#2B6EFF'},
-  {video:'short4.mp4',title:'This Changed Everything',type:'Short',ac:'#5C8FFF'},
-  {video:'short5.mp4',title:'Stop Doing This Now',type:'Short',ac:'#FF5A1A'},
-  {video:'short6.mp4',title:'The Truth About Editing',type:'Short',ac:'#FF7A40'},
+  {video:'short1.mp4', poster:'spost1.jpg', ac:'#FF5A1A'},
+  {video:'short2.mp4', poster:'spost2.jpg', ac:'#FF7A40'},
+  {video:'short3.mp4', poster:'spost3.jpg', ac:'#2B6EFF'},
+  {video:'short4.mp4', poster:'spost4.jpg', ac:'#5C8FFF'},
+  {video:'short5.mp4', poster:'spost5.jpg', ac:'#FF5A1A'},
+  {video:'short6.mp4', poster:'spost6.jpg', ac:'#FF7A40'},
 ];
-const sg = document.getElementById('sgrid');
-shorts.forEach(v => buildCard(sg, v));
+shorts.forEach(v => buildCard(document.getElementById('sgrid'), v));
 
 const longform = [
-  {video:'long1.mp4',title:'Full Podcast Episode Edit',type:'YouTube · Podcast',ac:'#FF5A1A'},
-  {video:'long2.mp4',title:'Brand Documentary Cut',type:'YouTube · Brand Film',ac:'#FF7A40'},
-  {video:'long3.mp4',title:'Vlog Storytelling Edit',type:'YouTube · Vlog',ac:'#2B6EFF'},
-  {video:'long4.mp4',title:'Tutorial / Explainer Edit',type:'YouTube · Tutorial',ac:'#5C8FFF'},
-  {video:'long5.mp4',title:'Interview Multi-Cam Edit',type:'YouTube · Interview',ac:'#FF5A1A'},
-  {video:'long6.mp4',title:'Product Launch Video',type:'YouTube · Brand Film',ac:'#2B6EFF'},
+  {video:'showlong1.mp4', poster:'lpost1.jpg', title:'Full Podcast Episode Edit', type:'YouTube · Podcast', ac:'#FF5A1A'},
+  {video:'showlong2.mp4', poster:'lpost2.jpg', title:'Brand Documentary Cut',     type:'YouTube · Brand Film', ac:'#FF7A40'},
+  {video:'showlong3.mp4', poster:'lpost3.jpg', title:'Vlog Storytelling Edit',    type:'YouTube · Vlog', ac:'#2B6EFF'},
+  {video:'showlong4.mp4', poster:'lpost4.jpg', title:'Tutorial / Explainer Edit', type:'YouTube · Tutorial', ac:'#5C8FFF'},
+  {video:'showlong5.mp4', poster:'lpost5.jpg', title:'Interview Multi-Cam Edit',  type:'YouTube · Interview', ac:'#FF5A1A'},
+  {video:'showlong6.mp4', poster:'lpost6.jpg', title:'Product Launch Video',      type:'YouTube · Brand Film', ac:'#2B6EFF'},
 ];
-const lg = document.getElementById('lgrid');
-longform.forEach(v => buildLongCard(lg, v));
+longform.forEach(v => buildLongCard(document.getElementById('lgrid'), v));
 
 const rvs = document.querySelectorAll('.rv');
 const obs = new IntersectionObserver(entries => {
@@ -254,9 +194,8 @@ rvs.forEach(el => obs.observe(el));
 
 const titems=['Cinematic Edits','Smooth Transitions','Motion Graphics','Hook Design','Retention Pacing','Brand Storytelling'];
 let th='';
-for(let i=0;i<4;i++) titems.forEach(x=>{th+=`<span>${x}</span><span class="tsep"> ◆ </span>`;});
+for(let i=0;i<4;i++) titems.forEach(x=>{th+='<span>'+x+'</span><span class="tsep"> ◆ </span>';});
 document.getElementById('ticker').innerHTML=th;
 </script>
 </body>
 </html>
-
